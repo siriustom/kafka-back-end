@@ -1,28 +1,16 @@
-var MongoClient = require('mongodb').MongoClient;
-var db;
-var connected = false;
+const mongoose = require('mongoose');
 
 
-/**
- * Connects to the MongoDB Database with the provided URL
- */
-exports.connect = function(url, callback){
-    MongoClient.connect(url, function(err, _db){
-        if (err) { throw new Error('Could not connect: '+err); }
-        db = _db;
-        connected = true;
-        console.log(connected + " is connected?");
-        callback(db);
-    });
-};
+const mongoSessionURL = 'mongodb://localhost:27017/sessions';
+const mongoUserURL = 'mongodb://localhost:27017/users';
+module.exports.SessionConnection = function() {
+    const conn = mongoose.createConnection(mongoSessionURL);
+    return conn;
+}
 
-/**
- * Returns the collection on the selected database
- */
-exports.collection = function(name){
-    if (!connected) {
-        throw new Error('Must connect to Mongo before calling "collection"');
-    }
-    return db.collection(name);
+module.exports.UserConnection = function () {
+    const conn = mongoose.createConnection(mongoUserURL);
+    return conn;
+}
 
-};
+

@@ -1,9 +1,11 @@
 var connection =  new require('./kafka/kafkaConnection');
 var login = require('./services/login');
-
+var express = require('express');
 var topic = 'login';
 var consumer = connection.getConsumer(topic);
 var producer = connection.getProducer();
+
+var port = 3001;
 
 console.log('kafka back-end server is running');
 consumer.on('message', function (message) {
@@ -28,3 +30,4 @@ consumer.on('message', function (message) {
         return;
     });
 });
+
