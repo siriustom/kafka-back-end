@@ -1,25 +1,38 @@
 var kafka = require('kafka-node');
 
-function kafkaConnection() {
-    this.getConsumer = function(topic) {
-        if (!this.kafkaConsumerConnection) {
-            this.client = new kafka.Client("localhost:2181");
-            this.kafkaConsumerConnection = new kafka.Consumer(this.client, [ { topic: topic, partition: 0 } ]);
-            this.client.on('ready', function() {
-                console.log('client ready!');
+module.exports.kafkaConnection = function() {
+    var getConsumer = function (topic) {
+        if (!this.kafkaConsumer) {
+            this.client = new kafka.Client("localhost:2181");//a client connection to zookeeper and brokers
+            this.kafkaConsumer = new kafka.Consumer(this.client, [{ topic: topic, partition: 0 }]);
+            this.client.on('ready', function () {
+                console.log('consumer ready!')
             })
         }
-        return this.kafkaConsumerConnection;
+        return this.kafkaConsumer;
     };
 
-    this.getProducer = function() {
-        if (!this.kafkaProducerConnection) {
-            this.client = new kafka.Client("localhost:2181");
+    var getProducer = function() {
+        if (!this.kafkaProducer) {
+            this.client = new kafka.Client("localhost:2181");//a client connection to zookeeper and brokers
             var HighLevelProducer = kafka.HighLevelProducer;
-            this.kafkaProducerConnection = new HighLevelProducer(this.client);
+            this.kafkaProducer = new HighLevelProducer(this.client);
             console.log('producer ready');
         }
-        return this.kafkaProducerConnection;
+        return this.kafkaProducer;
     };
-}
-exports = module.exports = new kafkaConnection;
+
+    var getOffset = function () {
+        if (! this.kafkaOffset) {
+            this.client = new kafka.Client("localhost:2181");//a client connection to zookeeper and brokers
+            this.kafkaOffset = new kafka.Offset(this.client);
+        }
+        return this.kafkaOffset;
+    };
+
+    return {
+        getConsumer: getConsumer,
+        getProducer: getProducer,
+        getOffset: getOffset
+    }
+};
