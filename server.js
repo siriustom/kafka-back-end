@@ -16,7 +16,6 @@ consumer.on('error', function (err) {
 });
 consumer.on('offsetOutOfRange', function (topic) {
     topic.maxNum = 2;
-    console.log('offset out of range');
     var offset = connection.getOffset();
     offset.fetch([topic], function (err, offsets) {
         if (err) {
@@ -31,22 +30,39 @@ consumer.on('message', function (message) {
     console.log('message received');
     console.log(JSON.stringify(message.value));
     var data = JSON.parse(message.value);
-    login.handle_request(data.data, function(err, res) {
-        console.log('after handle' + res);
-        var payloads = [
-            {
-                topic: data.replyTo,
-                messages: JSON.stringify({
-                    correlationId: data.correlationId,
-                    data : res
-                }),
-                partition : 0
-            }
-        ];
-        producer.send(payloads, function(err, data){
-            console.log(data);
-        });
-        return;
+    var payloads = [
+        {
+            topic: data.replyTo,
+            messages: JSON.stringify({
+                correlationId: data.correlationId,
+                data : {
+                    status: "from topic response"
+                }
+            }),
+            partition : 0
+        }
+    ];
+    producer.send(payloads, function(err, data){
+        if (err) {
+            throw err;
+        }
+        console.log(data);
     });
+    // login.handle_request(data.data, function(err, res) {
+    //     console.log('after handle' + res);
+    //     var payloads = [
+    //         {
+    //             topic: data.replyTo,
+    //             messages: JSON.stringify({
+    //                 correlationId: data.correlationId,
+    //                 data : res
+    //             }),
+    //             partition : 0
+    //         }
+    //     ];
+    //     producer.send(payloads, function(err, data){
+    //         console.log(data);
+    //     });
+    // });
 });
 
