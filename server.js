@@ -26,7 +26,7 @@ consumer.on('offsetOutOfRange', function (topic) {
 });
 
 consumer.on('message', function (message) {
-    console.log('message received');
+    console.log('message received', message);
     var content = JSON.parse(message.value);
     login.handle_login(content);
 });
