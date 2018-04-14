@@ -1,9 +1,8 @@
 var connection =  require('./kafka/kafkaConnection').kafkaConnection();
 var login = require('./services/login');
-var express = require('express');
+
 var topic = 'login';
 var consumer = connection.getConsumer(topic);
-var producer = connection.getProducer();
 
 var port = 3001;
 
@@ -28,41 +27,7 @@ consumer.on('offsetOutOfRange', function (topic) {
 
 consumer.on('message', function (message) {
     console.log('message received');
-    console.log(JSON.stringify(message.value));
-    var data = JSON.parse(message.value);
-    var payloads = [
-        {
-            topic: data.replyTo,
-            messages: JSON.stringify({
-                correlationId: data.correlationId,
-                data : {
-                    status: "from topic response"
-                }
-            }),
-            partition : 0
-        }
-    ];
-    producer.send(payloads, function(err, data){
-        if (err) {
-            throw err;
-        }
-        console.log(data);
-    });
-    // login.handle_request(data.data, function(err, res) {
-    //     console.log('after handle' + res);
-    //     var payloads = [
-    //         {
-    //             topic: data.replyTo,
-    //             messages: JSON.stringify({
-    //                 correlationId: data.correlationId,
-    //                 data : res
-    //             }),
-    //             partition : 0
-    //         }
-    //     ];
-    //     producer.send(payloads, function(err, data){
-    //         console.log(data);
-    //     });
-    // });
+    var content = JSON.parse(message.value);
+    login.handle_login(content);
 });
 

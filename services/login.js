@@ -1,22 +1,27 @@
-const mongoConn = require('./mongo');
+var connection =  require('../kafka/kafkaConnection').kafkaConnection();
+var producer = connection.getProducer();
 
-function handle_request(msg, callback) {
-    let res = {};
-    console.log("In handle request:" + JSON.stringify(msg));
-    const username = msg.username;
-    const password = msg.password;
-    const query = mongoConn.UserConnection.findOne({username: username});
-    query.select('password');
-    query.exec(function (err, user) {
-        if (err) {
-            console.log(err);
-        } else {
-            if (user.password === password) {
-                res.value = 'successful login';
-            }
-        }
-    })
-    callback(null, res);
+function handle_login(content) {
+    return producerSend(content)
 }
 
-exports.handle_request = handle_request;
+function producerSend(consumedMsg) {
+    var payloads = [
+        {
+            topic: consumedMsg.replyTo,
+            messages: JSON.stringify({
+                correlationId: consumedMsg.correlationId,
+                data : consumedMsg.data
+            }),
+            partition : 0
+        }
+    ];
+    producer.send(payloads, function(err, data){
+        if (err) {
+            throw err;
+        }
+        console.log(data);
+    });
+}
+
+exports.handle_login = handle_login;
