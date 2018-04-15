@@ -25,6 +25,6 @@ consumer.on('message', function (message) {
     console.log('message received', message);
     var content = JSON.parse(message.value);
     var topic = message.topic;
-    serviceMapping.Mapping(topic, content);
+    serviceMapping.Mapping(topic)(content);
 });
 

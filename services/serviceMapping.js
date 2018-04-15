@@ -6,7 +6,7 @@ const serviceMap = {
     postproject: handle_postproject
 }
 
-function Mapping(topic, content) {
+function Mapping(topic) {
     if (serviceMap.hasOwnProperty(topic)) {
         return serviceMap[topic];
     }
