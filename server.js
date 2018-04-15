@@ -4,8 +4,6 @@ var login = require('./services/login');
 var topic = 'login';
 var consumer = connection.getConsumer(topic);
 
-var port = 3001;
-
 console.log('kafka back-end server is running');
 
 
