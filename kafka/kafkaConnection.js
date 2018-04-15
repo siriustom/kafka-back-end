@@ -1,10 +1,14 @@
 var kafka = require('kafka-node');
 
 module.exports.kafkaConnection = function() {
-    var getConsumer = function (topic) {
+    var getConsumer = function() {
         if (!this.kafkaConsumer) {
             this.client = new kafka.Client("localhost:2181");//a client connection to zookeeper and brokers
-            this.kafkaConsumer = new kafka.Consumer(this.client, [{ topic: topic, partition: 0 }]);
+            this.kafkaConsumer = new kafka.Consumer(this.client,
+                [
+                    { topic: 'login', partition: 0 },
+                    { topic: 'postproject', partition: 0 },
+                ]);
             this.client.on('ready', function () {
                 console.log('consumer ready!')
             })

@@ -1,13 +1,11 @@
 var connection =  require('./kafka/kafkaConnection').kafkaConnection();
 var serviceMapping = require('./services/serviceMapping');
 
-var topic = 'login';
-var consumer = connection.getConsumer(topic);
+
+var consumer = connection.getConsumer();
 
 console.log('kafka back-end server is running');
 
-
-console.log('server is running');
 consumer.on('error', function (err) {
     console.log(err);
 });
