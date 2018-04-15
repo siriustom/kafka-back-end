@@ -9,7 +9,7 @@ function handle_register(content) {
         password: data.password,
         phone: data.phone,
         about: data.about,
-        skill: data.skill,
+        skills: data.skills,
         filename: data.fileName
     });
     User.createUser(newUser, function(err, user) {
