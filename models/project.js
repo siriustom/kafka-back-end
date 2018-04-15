@@ -5,14 +5,11 @@ var mongoUrl = require('../constants').MONGOURL;
 mongoose.connect(mongoUrl);
 
 var ProjectSchema = mongoose.Schema({
-    projectId: {
+    userId: {
         type: String,
         index: true
     },
-    userId: {
-        type: String
-    },
-    name: {
+    title: {
         type: String
     },
     description: {
