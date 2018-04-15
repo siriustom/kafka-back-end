@@ -44,9 +44,5 @@ var ProjectSchema = mongoose.Schema({
 var Project = module.exports = mongoose.model('Project', ProjectSchema);
 
 module.exports.createProject = function(newProject, callback) {
-    var p = new Project(newProject);
-    p.save(function (err) {
-        if (err) throw err;
-        return callback();
-    })
+    newProject.save(callback);
 }
