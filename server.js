@@ -1,5 +1,5 @@
 var connection =  require('./kafka/kafkaConnection').kafkaConnection();
-var login = require('./services/login');
+var serviceMapping = require('./services/serviceMapping');
 
 var topic = 'login';
 var consumer = connection.getConsumer(topic);
@@ -26,6 +26,7 @@ consumer.on('offsetOutOfRange', function (topic) {
 consumer.on('message', function (message) {
     console.log('message received', message);
     var content = JSON.parse(message.value);
-    login.handle_login(content);
+    var topic = message.topic;
+    serviceMapping.Mapping(topic, content);
 });
 
