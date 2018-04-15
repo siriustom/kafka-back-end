@@ -1,5 +1,5 @@
 var Project = require('../models/project');
-var producerService = require('./producerService1');
+var producerService = require('./producerService');
 
 function handle_postproject(content) {
     var data = content.data;
