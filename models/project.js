@@ -46,3 +46,13 @@ var Project = module.exports = mongoose.model('Project', ProjectSchema);
 module.exports.createProject = function(newProject, callback) {
     newProject.save(callback);
 }
+
+module.exports.getAllProject = function (today, callback) {
+    Project.find({period: {$gte: today}}, function (err, docs) {
+        if (err) throw err;
+        if (!docs) {
+            return callback(err);
+        }
+        return callback(null, docs);
+    })
+}
