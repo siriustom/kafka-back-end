@@ -10,7 +10,13 @@ module.exports.kafkaConnection = function() {
                     { topic: 'postproject', partition: 0 },
                     { topic: 'register', partition: 0 },
                     { topic: 'profileedit', partition: 0 },
-                    { topic: 'allprojects', partition: 0 }
+                    { topic: 'allprojects', partition: 0 },
+                    { topic: 'getbidlist', partition: 0 },
+                    { topic: 'bid', partition: 0 },
+                    { topic: 'hire', partition: 0 },
+                    { topic: 'makepayment', partition: 0 },
+                    { topic: 'yourallprojects', partition: 0 },
+                    { topic: 'searchbarbyname', partition: 0 },
                 ]);
             this.client.on('ready', function () {
                 console.log('consumer ready!')
