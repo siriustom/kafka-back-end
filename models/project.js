@@ -48,7 +48,7 @@ module.exports.createProject = function(newProject, callback) {
 }
 
 module.exports.getAllProject = function (today, callback) {
-    Project.find({period: {$gte: today}}, function (err, docs) {
+    Project.find(function (err, docs) {
         if (err) throw err;
         if (!docs) {
             return callback(err);
