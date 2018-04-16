@@ -1,4 +1,5 @@
 exports.option = {
     poolSize: 1,
-    reconnectInterval: 10,
+    reconnectTries: Number.MAX_VALUE,
+    reconnectInterval: 500,
 };
