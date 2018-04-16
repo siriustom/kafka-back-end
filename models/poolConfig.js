@@ -1,3 +1,3 @@
 exports.option = {
-    poolSize: 10
+    poolSize: 100
 };
