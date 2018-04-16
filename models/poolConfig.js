@@ -1,3 +1,4 @@
 exports.option = {
-    poolSize: 100
+    poolSize: 1,
+    reconnectInterval: 10,
 };

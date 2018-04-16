@@ -3,7 +3,7 @@ var bcrypt = require('bcryptjs');
 var mongoUrl = require('../constants').MONGOURL;
 
 var option = require('./poolConfig').option;
-mongoose.connect(mongoUrl, option);
+mongoose.connect(mongoUrl);
 
 var UserSchema = mongoose.Schema({
     name: {
